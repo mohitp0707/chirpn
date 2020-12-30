@@ -1,0 +1,64 @@
+<button type="button"  class="btn btn-primary" (click)="isadd ? isadd = false : isadd = true;reset()">{{isadd === true ? 'Task List' : 'Add Task'}}</button>
+<div class="container mt-3"  *ngIf="!isadd">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <td>Task Name</td>
+          <td>Date</td>
+          <td>Description</td>
+          <td>Action</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor = "let item of tasklist ">
+            <td> {{item.name}}</td>
+            <td> {{item.sdate | date: 'dd/MM/yyyy'}}</td>
+            <td> {{item.description}}</td>
+            <td><button type="button" class="btn btn-primary" (click)="edit(item)">Edit</button> &nbsp;&nbsp;
+              <button type="button" class="btn btn-primary" (click)="delete(item)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+    </table>
+</div>
+
+
+<div class="container" *ngIf="isadd">
+  <div class="card" style="width: 100%;padding: 10px;">
+  <form class="example-form" #form="ngForm" (ngSubmit)="onSubmit(form,taskInfo)">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Tas Name</label>
+        <input type="text" class="form-control"  #name="ngModel" name="name" [(ngModel)]="taskInfo.name" pattern="[a-zA-Z0-9 ]*" required>
+        <div *ngIf="name.touched && name.errors?.required">Name required!</div>
+        <div *ngIf="name.touched && name.errors?.pattern">Alphabets Numerice Only!</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Date</label>
+        <input type="date" class="form-control"  #sdate="ngModel" name="sdate" [(ngModel)]="taskInfo.sdate"  >
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Description</label>
+        <textarea class="form-control" #desc="ngModel" name="description" [(ngModel)]="taskInfo.description"  >  </textarea>
+      
+      </div>
+    </div>
+  </div>
+    <div class="row">
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-primary" (click)="reset()">Clear</button>
+      </div>
+  </div>
+
+
+</form>
+</div>
+</div>
